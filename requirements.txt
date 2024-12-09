@@ -1,0 +1,6 @@
+dash
+dash-iconify
+dash-mantine-components
+dash-bootstrap-components
+pandas
+pandasql

@@ -1,0 +1,33 @@
+.nav-pills a {
+    display: flex; 
+    align-items: center; 
+    justify-content: flex-start; 
+    width: 100; 
+    height: 50; 
+    color: #ffffff; 
+    font-size: 1rem;
+    padding: 10px 20px; 
+    border-radius: 5px; 
+    background-color: transparent; 
+    text-align: center;
+    transition: all 0.3s ease; 
+    margin-bottom: 10px; 
+}
+
+.nav-pills a:hover {
+    background-color: #ffffff; 
+    color: #00d9ff; 
+}
+
+.nav-pills .active {
+    background-color: #ffffff; 
+    color: #00d9ff; 
+}
+
+.sidebar_subtitle {
+    color: #ffffff;
+    font-size: 1.1rem;
+    font-weight: bold;
+    margin-top: 50px; 
+    border-bottom: 2px solid #ffffff; 
+}
