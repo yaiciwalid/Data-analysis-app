@@ -9,14 +9,16 @@ SIDEBAR_STYLE = {
     "position": "fixed",
     "top": 0,
     "left": 0,
-    "bottom": 0,
-    "width": "14rm",
+    "width": "16%",
     "background-color": "#002a5c",
-    "display": "flex",               
-    "flex-direction": "column",      
-    "justify-content": "center",     
-    "align-items": "flex-start",     
-    "padding": "2rem 1rem",          
+    "display": "flex",
+    "flex-direction": "column",
+    "justify-content": "flex-start",
+    "align-items": "flex-start",
+    "padding": "2rem 1rem",
+    "height": "100vh",  
+    "overflow-y": "auto",  
+    "overflow-x": "hidden",  
 }
 
 

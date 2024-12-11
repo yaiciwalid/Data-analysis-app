@@ -11,69 +11,69 @@ dash.register_page(__name__,path='/',title="Data analysis",description="Data ana
 
 
 layout = dmc.MantineProvider(
-    html.Div([
-        dcc.Location(id='url', refresh=True),
-        
-        html.Div(
-            className="background",
-            children=[
-                html.Div(className="overlay"),
-                
-                html.Div(
-                    className="text-section",
-                    children=[
-                        
-                        html.Div(
-                            children=[
-                                html.Div("DATA"),
-                                html.Div("ANALYSIS"),
-                            ],
-                            className="title",
-                        ),
-                        
-                        html.Div(
-                            children=[
-                                html.Ul(
-                                    children=[
-                                        html.Li("Transform and prepare data for machine learning algorithms"),
-                                        html.Li("Univariate and bivariate analysis"),
-                                        html.Li("Classification, clustering and regression algorithms"),
-                                    ],
-                                    className="description-list",
-                                )
-                            ],
-                            className="description",
-                        ),
-                        
-                        html.Div(
-                            children=[
-                                dcc.Upload(
-                                    ['Drag and Drop or ', html.A('Select a File')],
-                                    className="dash-upload",
-                                    id="dash-upload-btn" 
-                                ),
-                                dmc.Switch(
-                                    label="Use first row as header",
-                                    onLabel="ON",
-                                    offLabel="OFF",
-                                    size="lg",
-                                    color="teal",
-                                    id = "switch-header",
-                                    className="mantine-switch"
-                                ),
-                                html.Button(
-                                    'Upload File',
-                                    id="confirm-upload",
-                                    className="confirm-upload",
-                                )
-                            ],
-                        ),
-                    ]
-                ),
-            ]
-        ),
-    ])
+    html.Div(
+        id="app",
+        children=[
+            dcc.Location(id='url', refresh=True),
+            html.Div(
+                id="home",
+                className="background",
+                children=[
+                    html.Div(className="overlay"),
+                    html.Div(
+                        className="text-section",
+                        children=[
+                            html.Div(
+                                children=[
+                                    html.Div("DATA"),
+                                    html.Div("ANALYSIS"),
+                                ],
+                                className="title",
+                            ),
+                            html.Div(
+                                children=[
+                                    html.Ul(
+                                        children=[
+                                            html.Li("Transform and prepare data for machine learning algorithms"),
+                                            html.Li("Univariate and bivariate analysis"),
+                                            html.Li("Classification, clustering and regression algorithms"),
+                                        ],
+                                        className="description-list",
+                                    )
+                                ],
+                                className="description",
+                            ),
+                            html.Div(
+                                children=[
+                                    dcc.Upload(
+                                        ['Drag and Drop or ', html.A('Select a File')],
+                                        className="dash-upload",
+                                        id="dash-upload-btn",
+                                    ),
+                                    dmc.Switch(
+                                        label="Use first row as header",
+                                        onLabel="ON",
+                                        offLabel="OFF",
+                                        size="lg",
+                                        color="teal",
+                                        id="switch-header",
+                                        className="mantine-switch",
+                                    ),
+                                    html.Button(
+                                        "Upload File",
+                                        id="confirm-upload",
+                                        className="confirm-upload",
+                                    ),
+                                ],
+                            ),
+                        ],
+                    ),
+                ],
+            ),
+        ],
+    )
 )
+
 
 @dash.callback(
     Output("dash-upload-btn", "children"),  
