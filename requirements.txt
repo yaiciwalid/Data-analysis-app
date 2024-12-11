@@ -4,3 +4,4 @@ dash-mantine-components
 dash-bootstrap-components
 pandas
 pandasql
+gunicorn
