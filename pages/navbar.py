@@ -36,7 +36,7 @@ NAVBAR = html.Div(
                             "Overview"
                         ],
                         href="/overview",
-                        id="page-1-link",
+                        id="oevrview-link",
                         active="exact",
                         
                     )
@@ -47,8 +47,8 @@ NAVBAR = html.Div(
                             DashIconify(icon="carbon:transform-instructions", width=20, height=20, style={"margin-right": "10px"}),
                             "Global Transormation"
                         ],
-                        href="/page2",
-                        id="page-2-link",
+                        href="/transform",
+                        id="transform-link",
                         active="exact",
                     )
                 ),
@@ -126,8 +126,8 @@ NAVBAR = html.Div(
                             DashIconify(icon="carbon:chart-logistic-regression", width=20, height=20, style={"margin-right": "10px"}),
                             "Regression"
                         ],
-                        href="/page-8",
-                        id="page-8-link",
+                        href="/page-9",
+                        id="page-9-link",
                         active="exact",
                     )
                 ),

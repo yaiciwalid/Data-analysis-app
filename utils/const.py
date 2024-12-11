@@ -1,0 +1,12 @@
+DISCRET = 'Discrete'
+CONTINUOUS = 'Continuous'
+NOMINAL = 'Nominal'
+ORDINAL = 'Ordinal'
+Z_NORMALIZATION= "z-normalization"
+MIN_MAX_NORMALIZATION = "min-max"
+NO_NORMALIZATION = "No"
+COLUMN_NAME="Column"
+TYPE="Type"
+NB_DISTINCT_VALUES = "Nb distinct values"
+NB_MISSING_VALUES= "Nb missing values"
+MEAN_MOD= "Mean/Mod"

@@ -2,11 +2,12 @@ import dash
 from dash import html, dcc, Output, Input,State
 import dash_mantine_components as dmc
 import pandas as pd
+import pandas.api.types as ptypes
 import base64
 import io
+from utils.const import *
 
-
-dash.register_page(__name__,path='/',title="Plotly deep learning app",description="Deep learning simplified")
+dash.register_page(__name__,path='/',title="Data analysis",description="Data analysis plateforme")
 
 
 layout = dmc.MantineProvider(
@@ -86,6 +87,8 @@ def update_upload_text(filename):
 
 @dash.callback(
     [Output('shared-array', 'data'),
+     Output('shared-array-columns-type', 'data'),
+     Output('shared-prediction-variable', 'data'),
      Output('url', 'href')],
     Input("confirm-upload","n_clicks"),
     [State("dash-upload-btn", "contents"),
@@ -96,7 +99,7 @@ def redirect(n_clicks,contents,filename,checked):
     if n_clicks and n_clicks > 0 and contents is not None:
         _, content_string = contents.split(',')
     else: 
-        return dash.no_update, dash.no_update
+        return dash.no_update, dash.no_update, dash.no_update, dash.no_update
 
     try:
         decoded = base64.b64decode(content_string)
@@ -105,9 +108,19 @@ def redirect(n_clicks,contents,filename,checked):
         elif filename.endswith('.xlsx'):
             df = pd.read_excel(io.BytesIO(decoded), header=0 if checked else None)
         else:
-            return dash.no_update ,dash.no_update
+            return dash.no_update ,dash.no_update, dash.no_update, dash.no_update
+        col_types ={}
+        for col in df.columns:
+            if ptypes.is_integer_dtype(df[col]):
+                col_types[col]=DISCRET
+            elif ptypes.is_float_dtype(df[col]):
+                col_types[col]=CONTINUOUS
+            else:
+                col_types[col]=NOMINAL
+
         df_dict = df.to_dict('records')
-        return df_dict, '/overview'  
+        prediction_var = df.columns[-1]
+        return df_dict, col_types, prediction_var, '/overview'  
     except:
-        return dash.no_update, dash.no_update
+        return dash.no_update, dash.no_update, dash.no_update, dash.no_update
     
