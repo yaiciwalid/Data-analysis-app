@@ -29,7 +29,7 @@ The purpose of this project is to provide a platform that streamlines the data a
 
 To install and run this project, follow these steps:
 
-1. Clone the repository: `git clone https://github.com/your-username/data-analysis-platform.git`
+1. Clone the repository: `git clone https://github.com/yaiciwalid/Data-analysis-app.git`
 2. Create a virtual environment: `python -m venv env`
 3. Activate the virtual environment: `source env/bin/activate` (Linux/Mac) or `env\Scripts\activate` (Windows)
 4. Install the requirements: `pip install -r requirements.txt`
