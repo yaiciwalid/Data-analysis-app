@@ -1,4 +1,5 @@
-# Data Analysis Platform
+# Data Analysis Platform (ongoing development)
+![interface](https://github.com/user-attachments/assets/4ca3b862-95df-4233-895c-e01e6e354f8e)
 
 ## Description
 
@@ -15,10 +16,9 @@ A comprehensive data analysis platform that enables users to import data, transf
 ## Technologies Used
 
 * Python
+* Dash
 * Pandas
-* NumPy
-* Matplotlib
-* Seaborn
+* Plotly
 * Scikit-learn
 
 ## Purpose
@@ -37,7 +37,7 @@ To install and run this project, follow these steps:
 
 ## Usage
 
-Once the application is running, you can access it in your web browser at `http://localhost:5000`.
+Once the application is running, you can access it in your web browser at `http://localhost:8050`.
 
 ## Contributing
 
@@ -48,7 +48,3 @@ If you would like to contribute to this project, please follow these guidelines:
 3. Make your changes and commit them: `git commit -am 'Add my feature'`
 4. Push to your fork: `git push origin feature/my-feature`
 5. Submit a pull request
-
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
