@@ -65,6 +65,7 @@ layout = dmc.MantineProvider(
                 ], style={"display":"flex","flex-direction":"row", "align-items": "center", "padding-right": "20px"}),
                 
                 dash_table.DataTable(
+                    
                     id='data-table',
                     style_cell={'textAlign': 'center'},
                     style_as_list_view=True,
@@ -86,6 +87,7 @@ layout = dmc.MantineProvider(
                         'fontSize': '1rem',
                         'border': 'none'                   
                     },
+                    
                     columns=[],  
                     data=[],
                     filter_action="native",

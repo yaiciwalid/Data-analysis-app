@@ -3,7 +3,20 @@ import dash_mantine_components as dmc
 from dash_iconify import DashIconify
 import pandas as pd
 from utils.const import *
+import os
 
+
+def get_csv_files(folder):
+    try:
+        files = [
+            f for f in os.listdir(folder)
+            if os.path.isfile(os.path.join(folder, f)) and f.endswith('.csv') or f.endswith('.xlsx')
+        ]
+        return [{"label": file, "value": file} for file in files]
+    except Exception as e:
+        print(f"Error reading dataset folder: {e}")
+        return []
+    
 def update_card(title, value):
 
     return [

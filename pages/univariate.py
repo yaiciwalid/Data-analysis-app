@@ -101,9 +101,9 @@ layout = dmc.MantineProvider(
                                     )
                                 ],
                                 'layout': go.Layout(
-                                    title="Exemple d'Histogramme",
-                                    xaxis=dict(title="Valeurs"),  
-                                    yaxis=dict(title="Fréquence"),  
+                                    title="Frequency histogram",
+                                    xaxis=dict(title="Values"),  
+                                    yaxis=dict(title="Frequency"),  
                                 )
                             }
                     ),
@@ -112,9 +112,9 @@ layout = dmc.MantineProvider(
                         figure={
                             'data': [],
                             'layout': go.Layout(
-                                title="Courbe des Fréquences Cumulées",
-                                xaxis=dict(title="Valeurs"),
-                                yaxis=dict(title="Fréquence cumulative"),
+                                title="Cumulative frequency curve",
+                                xaxis=dict(title="Values"),
+                                yaxis=dict(title="Cumulative frequency"),
                             )
                         }
                     ),
@@ -157,7 +157,7 @@ layout = dmc.MantineProvider(
                                 figure={
                                     'data': [],
                                     'layout': go.Layout(
-                                        title="Box Plot des Données",
+                                        title="Box Plot",
                                         yaxis=dict(title="Valeurs"),
                                     )
                                 }
