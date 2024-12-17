@@ -6,7 +6,8 @@ import os
 _dash_renderer._set_react_version("18.2.0")
 
 
-app = dash.Dash(__name__, use_pages=True, external_stylesheets=[dbc.themes.BOOTSTRAP], prevent_initial_callbacks = True)
+app = dash.Dash(__name__, use_pages=True, external_stylesheets=[dbc.themes.BOOTSTRAP],
+                prevent_initial_callbacks = True, suppress_callback_exceptions=True)
 
 
 server = app.server

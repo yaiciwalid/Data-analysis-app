@@ -9,7 +9,7 @@ SIDEBAR_STYLE = {
     "position": "fixed",
     "top": 0,
     "left": 0,
-    "width": "16%",
+    "width": "18%",
     "background-color": "#002a5c",
     "display": "flex",
     "flex-direction": "column",
@@ -83,8 +83,8 @@ NAVBAR = html.Div(
                             DashIconify(icon="uis:analysis", width=20, height=20, style={"margin-right": "10px"}),
                             "Univariate analysis"
                         ],
-                        href="/page-5",
-                        id="page-5-link",
+                        href="/univariate",
+                        id="univariate-link",
                         active="exact",
                     )
                 ),

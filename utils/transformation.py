@@ -71,6 +71,8 @@ def create_edit_pop_up(df):
     type_choice = [
         {"value": DISCRET, "label": DISCRET},
         {"value": CONTINUOUS, "label": CONTINUOUS},
+        {"value": NOMINAL, "label": NOMINAL},
+        {"value": ORDINAL, "label": ORDINAL},
     ]
     normalization_choice = [
                 dmc.Radio(label="No Normalization", value=NO_NORMALIZATION),
