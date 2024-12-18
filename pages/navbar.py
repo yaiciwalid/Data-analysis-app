@@ -29,6 +29,18 @@ NAVBAR = html.Div(
 
         dbc.Nav(
             [
+                dbc.NavItem(
+                    dbc.NavLink(
+                        [
+                            DashIconify(icon="material-symbols:home", width=20, height=20, style={"margin-right": "10px"}),
+                            "Back home"
+                        ],
+                        href="/",
+                        id="home-link",
+                        active="exact",
+                        
+                    )
+                ),
                 html.P('DATA TRANSFORMATION',className = "sidebar_subtitle"),
 
                 dbc.NavItem(
@@ -97,6 +109,18 @@ NAVBAR = html.Div(
                         href="/bivariate",
                         id="bivariate-link",
                         active="exact",
+                    )
+                ),
+                dbc.NavItem(
+                    dbc.NavLink(
+                        [
+                            DashIconify(icon="tabler:message-chatbot", width=20, height=20, style={"margin-right": "10px"}),
+                            "Chatbot analysis"
+                        ],
+                        href="/chatbot",
+                        id="chatbot-link",
+                        active="exact",
+                        
                     )
                 ),
                 html.P('MACHINE LEARNING',className = "sidebar_subtitle"),
