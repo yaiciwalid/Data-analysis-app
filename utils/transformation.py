@@ -1,9 +1,13 @@
-from dash import html, dcc
+from dash import html, dcc, dash_table
 import dash_mantine_components as dmc
 from dash_iconify import DashIconify
 import pandas as pd
 from utils.const import *
 import os
+import plotly.graph_objs as go
+import plotly.express as px
+
+
 
 
 def get_csv_files(folder):
@@ -134,3 +138,78 @@ def create_edit_pop_up(df):
                             "marginLeft": "35%"
         })
     ]
+
+
+def create_2d_plot(df, x, y, color) :
+    fig = px.scatter(
+        df, x=x, y=y,color=color,
+    )
+    fig.update_layout(plot_bgcolor='white')
+
+    return dcc.Graph(figure=fig, style={"width": "100%"})
+
+def create_heatmap(df, columns_type):
+    cols = [col for col in columns_type.keys() if columns_type[col] in {CONTINUOUS, DISCRET}]
+    df_filtered = df[cols]
+    correlation_matrix = df_filtered.corr().round(2)
+    num_cols = len(correlation_matrix.columns)
+    plot_size = min(1500,max(400, num_cols * 50))
+    fig = px.imshow(
+        correlation_matrix,
+        text_auto=True,               
+        color_continuous_scale='Viridis',  
+        title='Heatmap of Correlations'
+    )
+    fig.update_layout(
+        width=plot_size,
+        height=plot_size,
+        title_font_size=20
+    )
+    return dcc.Graph(figure=fig)
+
+def create_categorial_bar_plot(contingency_table, var1, var2):
+
+    fig = px.bar(contingency_table, 
+             x=var1, 
+             y='count',  
+             color=var2,  
+             labels={'Variable1': 'Catégories de Variable1', 'count': 'count', 'Variable2': 'Catégories de Variable2'},
+             text='count',
+            )  
+    fig.update_layout(plot_bgcolor='white')
+    return dcc.Graph(figure=fig, style={"width": "100%"})
+
+def create_table(contingency_table):
+
+
+    return dash_table.DataTable(
+        id='contingency-table',
+        columns=[{'name': col, 'id': col} for col in contingency_table.columns],
+        data=contingency_table.to_dict('records'),
+        style_cell={'textAlign': 'center'},
+        style_as_list_view=True,
+        style_data={
+            'color': 'black',
+            'backgroundColor': 'white',
+            'border': 'none',  
+        },
+        style_data_conditional=[
+            {
+                'if': {'row_index': 'odd'},
+                'backgroundColor': 'rgb(13, 110, 253,0.05)',  
+            }
+        ],
+        style_header={
+            'backgroundColor': 'rgb(0, 51, 102)',  
+            'color': 'white',                      
+            'fontWeight': 'bold',
+            'fontSize': '1rem',
+            'border': 'none'                   
+        }
+    )
+
+def create_mixed_var_box_plot(df,qualitative_var,quantitative_var):
+    fig = px.box(df, x=qualitative_var, y=quantitative_var, color=qualitative_var, points="all")
+    fig.update_layout(plot_bgcolor='white')
+
+    return dcc.Graph(figure=fig, style={"width": "100%"})

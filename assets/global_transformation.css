@@ -24,9 +24,6 @@
 
 .page-select, .page-radio-group {
     font-size: 1rem;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
     margin-right: 40px;
     width: 400px;
 }

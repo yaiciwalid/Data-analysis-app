@@ -69,7 +69,7 @@ layout = dmc.MantineProvider(
                             id="dropdown-variable",
                             label="Choose the variable:",
                             data=None,
-                            className="page-select",  
+                            style={"margin-right":"40px"}
                         ),
                         html.Div([
                             html.Label("Number of partitions:", style={"font-weight":"bold","margin": "15 5px", "padding-bottom": "10px"}),
@@ -206,7 +206,7 @@ def update_dropdown(pathname, data):
     [Input('dropdown-variable', 'value'),
      Input('slider-partitions', 'value'),],
     [State('shared-array', 'data'),
-     State('shared-array-columns-type','data')],
+     State('shared-array-columns-type','data'),],
 )
 def load_content(value, nb_partitions, data, columns_type):
     
@@ -220,9 +220,16 @@ def load_content(value, nb_partitions, data, columns_type):
             cumulative_freq = np.arange(1, len(sorted_data) + 1) / len(sorted_data)  
 
             if columns_type[value]==CONTINUOUS or columns_type[value]==DISCRET:
-                bin_min = min(hist_data)  
-                bin_max = max(hist_data)  
-                bin_size = (bin_max - bin_min) / nb_partitions  
+                  
+                if columns_type[value]==CONTINUOUS:
+                    bin_min = min(hist_data)-0.1
+                    bin_max = max(hist_data)+0.1
+                    print(bin_min,bin_max)
+                    bin_size = (bin_max - bin_min) / nb_partitions  
+                else:
+                    bin_min =None
+                    bin_max = None
+                    bin_size = 1
                 nb_null_rows = df[value].isna().sum()
                 mean_card_name = "Mean"
                 mean = round(df[value].mean(),2)
@@ -236,7 +243,7 @@ def load_content(value, nb_partitions, data, columns_type):
                 maximum = round(df[value].max(),2)
                 median = round(df[value].median(),2)
                 x_binz = dict(
-                    start=bin_min,  
+                    start=bin_min,
                     end=bin_max,    
                     size=bin_size   
                 )
@@ -314,9 +321,8 @@ def load_content(value, nb_partitions, data, columns_type):
             box_tab = []
             box_tab_column_name = []
         else:
-            # Box plot
-            dd = pd.DataFrame(hist_data, columns=["value"])
-            box_plot = px.box(dd, y="value", points="all")
+            dd = pd.DataFrame(hist_data, columns=[value])
+            box_plot = px.box(dd, y=value, points="all")
             box_plot_figure = box_plot.update_layout(
                 title=dict(
                     text="Boxplot",

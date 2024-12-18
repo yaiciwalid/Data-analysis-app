@@ -94,8 +94,8 @@ NAVBAR = html.Div(
                             DashIconify(icon="streamline:money-graph-analytics-business-product-graph-data-chart-analysis", width=20, height=20, style={"margin-right": "10px"}),
                             "Bivariate analysis"
                         ],
-                        href="/page-6",
-                        id="page-6-link",
+                        href="/bivariate",
+                        id="bivariate-link",
                         active="exact",
                     )
                 ),

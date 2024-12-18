@@ -137,7 +137,10 @@ def redirect(n_clicks,contents,filename,drop_down_dataset,checked):
             col_types ={}
             for col in df.columns:
                 if ptypes.is_integer_dtype(df[col]):
-                    col_types[col]=DISCRET
+                    if df[col].nunique() <= 10:
+                        col_types[col]=NOMINAL
+                    else:
+                        col_types[col]=DISCRET
                 elif ptypes.is_float_dtype(df[col]):
                     col_types[col]=CONTINUOUS
                 else:
