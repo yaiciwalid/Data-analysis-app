@@ -224,7 +224,6 @@ def load_content(value, nb_partitions, data, columns_type):
                 if columns_type[value]==CONTINUOUS:
                     bin_min = min(hist_data)-0.1
                     bin_max = max(hist_data)+0.1
-                    print(bin_min,bin_max)
                     bin_size = (bin_max - bin_min) / nb_partitions  
                 else:
                     bin_min =None

@@ -9,6 +9,8 @@ import pandas.api.types as ptypes
 from utils.transformation import update_card, create_colummns_array, create_edit_pop_up
 import dash.exceptions
 import json
+from sklearn.preprocessing import LabelEncoder, OneHotEncoder
+
 from utils.const import *
 
 
@@ -61,6 +63,12 @@ POP_UP = html.Div(
                             dmc.Radio(label="Min-Max Normalization", value=MIN_MAX_NORMALIZATION),
                             dmc.Radio(label="No Normalization", value=NO_NORMALIZATION),
                         ],
+                    ),
+                    dmc.RadioGroup(
+                        id="encoding-radio-group",
+                        label="Encoding:",
+                        value=NO_ENCODING,
+                        children=[],
                     ),
 
                     dmc.Select(
@@ -378,37 +386,53 @@ def edit(n_clicks):
      Output('transform-columns-df','data', allow_duplicate=True),
      Output('shared-array-columns-type','data', allow_duplicate=True),
      Output('transform-table','children', allow_duplicate=True),
-     Output('popup-container','style', allow_duplicate=True)],
+     Output('popup-container','style', allow_duplicate=True),
+     Output('dropdown-class-var','data', allow_duplicate=True)],
     [Input('confirm-edit-column-btn', 'n_clicks'),],
      [State('shared-array','data'),
       State('old-name-column','children'),
       State('shared-array-columns-type','data'),
       State('column-name-input', 'value'),
       State('normalization-radio-group','value'),
+      State('encoding-radio-group','value'),
       State('variable-type-dropdown','value')],  
     prevent_initial_call=True
 )
-def confirm_edit(n_clicks, data, old_name_column, columns_type, column_name_input, normalization_radio_group, variable_type_dropdown):
-    if n_clicks and n_clicks>0:  
-        df = pd.DataFrame(data)
-        old_name = old_name_column
-        
-        if normalization_radio_group == MIN_MAX_NORMALIZATION:
-            if df[old_name].max() != df[old_name].min():
-                df[old_name] = round((df[old_name] - df[old_name].min()) / (df[old_name].max() - df[old_name].min()),2)
+def confirm_edit(n_clicks, data, old_name_column, columns_type, column_name_input, normalization_radio_group, encoding_radio_group, variable_type_dropdown):
+    try:
+        if n_clicks and n_clicks>0:  
+            df = pd.DataFrame(data)
+            old_name = old_name_column
+            
+            if normalization_radio_group == MIN_MAX_NORMALIZATION:
+                if df[old_name].max() != df[old_name].min():
+                    df[old_name] = round((df[old_name] - df[old_name].min()) / (df[old_name].max() - df[old_name].min()),2)
 
-        elif normalization_radio_group == Z_NORMALIZATION:
-            if df[old_name].std() != 0:
-                df[old_name] = round((df[old_name] - df[old_name].mean()) / df[old_name].std(),2)
-        
-        columns_type[old_name]=variable_type_dropdown
-        if  column_name_input is not None and column_name_input.strip() != "":
-            df=df.rename(columns={old_name:column_name_input})
-            columns_type.pop(old_name)
-            columns_type[column_name_input]=variable_type_dropdown
+            elif normalization_radio_group == Z_NORMALIZATION:
+                if df[old_name].std() != 0:
+                    df[old_name] = round((df[old_name] - df[old_name].mean()) / df[old_name].std(),2)
+            elif encoding_radio_group == LABEL_ENCODING:
+                label_encoder = LabelEncoder()
+                df[old_name] = label_encoder.fit_transform(df[old_name])
+            elif encoding_radio_group == ONE_HOT_ENCODING:
+                encoder = OneHotEncoder(sparse_output=False)
+                encoded_array = encoder.fit_transform(df[[old_name]])
+                df_encoded = pd.DataFrame(encoded_array, columns=encoder.get_feature_names_out([old_name]))
+                for col in df_encoded.columns:
+                    columns_type[col]=NOMINAL
+                df = pd.concat([df, df_encoded], axis=1)
 
+            else:
+                columns_type[old_name]=variable_type_dropdown
+                if  column_name_input is not None and column_name_input.strip() != "":
+                    df=df.rename(columns={old_name:column_name_input})
+                    columns_type.pop(old_name)
+                    columns_type[column_name_input]=variable_type_dropdown
 
-        array, df_tranformation_tab = create_colummns_array(df,columns_type) 
+            df = df.sort_index(axis=1)
+            array, df_tranformation_tab = create_colummns_array(df,columns_type) 
 
-        return df.to_dict('records'),  df_tranformation_tab.to_dict('records'), columns_type, array, {'display':"none"}
-    return dash.no_update, dash.no_update, dash.no_update, dash.no_update, dash.no_update
+            return df.to_dict('records'),  df_tranformation_tab.to_dict('records'), columns_type, array, {'display':"none"},[{'label': col, 'value': col} for col in df.columns]
+        return dash.no_update, dash.no_update, dash.no_update, dash.no_update, dash.no_update, dash.no_update
+    except:
+        return dash.no_update, dash.no_update, dash.no_update, dash.no_update, dash.no_update, dash.no_update

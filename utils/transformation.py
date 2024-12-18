@@ -96,6 +96,10 @@ def create_edit_pop_up(df):
                 dmc.Radio(label="Z-Normalization", value=Z_NORMALIZATION),
                 dmc.Radio(label="Min-Max Normalization", value=MIN_MAX_NORMALIZATION),
             ]
+    encoding_choice = [
+        dmc.Radio(label="No encoding", value=NO_ENCODING),
+    ]
+
     if column_type == ORDINAL or column_type == NOMINAL:
         type_choice = [
             {"value": NOMINAL, "label": NOMINAL},
@@ -104,6 +108,11 @@ def create_edit_pop_up(df):
         normalization_choice = [
                 dmc.Radio(label="No Normalization", value=NO_NORMALIZATION),
             ]
+        encoding_choice = [
+            dmc.Radio(label="No encoding", value=NO_ENCODING),
+            dmc.Radio(label="One-hot encoding", value=ONE_HOT_ENCODING),
+            dmc.Radio(label="Label encoding", value=LABEL_ENCODING),
+        ]
  
     return [
         html.Div(
@@ -121,6 +130,13 @@ def create_edit_pop_up(df):
             label="Normalization:",
             value=NO_NORMALIZATION,
             children=normalization_choice,
+        ),
+
+        dmc.RadioGroup(
+            id="encoding-radio-group",
+            label="Encoding:",
+            value=NO_ENCODING,
+            children=encoding_choice,
         ),
 
         dmc.Select(
