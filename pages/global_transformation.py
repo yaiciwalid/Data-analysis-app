@@ -177,6 +177,7 @@ layout = dmc.MantineProvider(
                                         "Submit modification"],
                                     n_clicks=0,
                                     id="apply-transformation-btn",
+                                    className="standard-btn"
                                 ),
                             ], id="row-2", style={"display":"flex","flex-direction":"row"}
                         ),

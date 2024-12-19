@@ -47,11 +47,11 @@
     width: 300px;
     height: 60px;
 }
-#apply-transformation-btn:hover {
+.standard-btn:hover {
     background-color: #000000;  
     color: white;
 }
-#apply-transformation-btn:active {
+.standard-btn:active {
     background-color: #000000;  
     color: white;
 }

@@ -1,4 +1,5 @@
 import numpy as np
+from sklearn.cluster import DBSCAN
 
 def calculate_entropy(column):
     value_counts = column.value_counts(normalize=True)  
@@ -31,3 +32,8 @@ def icc(df, value, group):
 
     icc = (msb - msw) / (msb + (k - 1) * msw)
     return icc
+
+def outlayers_dbscan_detection(df, prediction_var, eps=1.0, min_samples=5, metric='euclidean'):
+    dbscan = DBSCAN(eps=eps, min_samples=min_samples, metric=metric)
+    labels = dbscan.fit_predict(df.drop(columns=[prediction_var]).dropna())            
+    return labels    

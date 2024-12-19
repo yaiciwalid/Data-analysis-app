@@ -148,6 +148,8 @@ def redirect(n_clicks,contents,filename,drop_down_dataset,checked):
             df = df.sort_index(axis=1)
             df_dict = df.to_dict('records')
             prediction_var = df.columns[-1]
+
+            
             return df_dict, col_types, prediction_var, '/overview'            
         else: 
             return dash.no_update, dash.no_update, dash.no_update, dash.no_update

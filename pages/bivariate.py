@@ -20,7 +20,10 @@ dash.register_page(__name__, path='/bivariate', title="Data analysis", descripti
 layout = dmc.MantineProvider(
     [
         html.Div([
-            dcc.Location(id='url', refresh=True),  
+            dcc.Location(id='url', refresh=True), 
+            dcc.Store(id="selected-bivariate-variable1", data=None, storage_type="local"),
+            dcc.Store(id="selected-bivariate-variable2", data=None, storage_type="local"),
+ 
             html.Div([
                 html.Div("BIVARIATE ANALYSIS", className="page-title"),
                 html.Div(id="bivariate-head",
@@ -62,23 +65,29 @@ layout = dmc.MantineProvider(
 
 @dash.callback(
     [Output("dropdown-variable-1", "data"),
-     Output("dropdown-variable-2", "data")],
+     Output("dropdown-variable-2", "data"),
+     Output("dropdown-variable-1", "value"),
+     Output("dropdown-variable-2", "value")],
     Input("url", "pathname"),
-    State('shared-array', 'data'),
+    [State('shared-array', 'data'),
+     State('selected-bivariate-variable1', 'data'),
+     State('selected-bivariate-variable2', 'data')],
     prevent_initial_call=True)
-def update(pathname, data):
+def update(pathname, data, var1, var2):
     if pathname=="/bivariate":
         df = pd.DataFrame(data)
         columns = []
         for cl in df.columns:
             columns.append({"label":cl, "value":cl})
-        return columns, columns
+        return columns, columns, var1, var2
     else:
-        return dash.no_update, dash.no_update
+        return dash.no_update
     
 @dash.callback(
     [Output("bivariate-kpis", "children"),
-     Output("bivariate-plots", "children")],
+     Output("bivariate-plots", "children"),
+     Output("selected-bivariate-variable1", "data"),
+     Output("selected-bivariate-variable2", "data")],
     Input("dropdown-variable-1", "value"),
     Input("dropdown-variable-2", "value"),
     [State('shared-array', 'data'),
@@ -105,7 +114,7 @@ def update_kpis(var1, var2, data, columns_type, prediction_variable):
                     color = prediction_variable
                 plot_points = create_2d_plot(df, var1, var2, color)
                 plot_hot_map_correlation = create_heatmap(df, columns_type)
-                return [card1, card2, card3], [plot_points, plot_hot_map_correlation]
+                return [card1, card2, card3], [plot_points, plot_hot_map_correlation], var1, var2
             
             elif ((columns_type[var1] in {NOMINAL,ORDINAL}) and 
             (columns_type[var2] in {NOMINAL,ORDINAL})):
@@ -132,7 +141,7 @@ def update_kpis(var1, var2, data, columns_type, prediction_variable):
 
                 bar_plot = create_categorial_bar_plot(contingency_table_reset, var1, var2)
                 contingency_table_plot = create_table(contingency_table_reset)
-                return [card1, card2, card3, card4], [bar_plot,contingency_table_plot]
+                return [card1, card2, card3, card4], [bar_plot,contingency_table_plot], var1, var2
 
             else:
                 if columns_type[var1] in {NOMINAL,ORDINAL}:
@@ -160,8 +169,8 @@ def update_kpis(var1, var2, data, columns_type, prediction_variable):
                 card2 = dmc.Card(children=update_card("p-value", str(round(anova_result.pvalue,4))), 
                                 className="page-card", shadow="sm", padding="md")
                 box_plot = create_mixed_var_box_plot(df, qualitative_var, quantitative_var)
-                return [card1, card2], [box_plot, stats_tab]
+                return [card1, card2], [box_plot, stats_tab], var1, var2
         else:
-            return [], []
+            return [], [], None, None
     except:
-        return [], []
+        return [], [], None, None

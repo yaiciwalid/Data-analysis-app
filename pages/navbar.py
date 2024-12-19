@@ -1,8 +1,6 @@
 # navbar.py
-import dash
-from dash import html, dcc, _dash_renderer, Output, Input,State
+from dash import html, dcc
 import dash_bootstrap_components as dbc
-import dash_mantine_components as dmc
 from dash_iconify import DashIconify
 
 SIDEBAR_STYLE = {
@@ -69,22 +67,11 @@ NAVBAR = html.Div(
                 dbc.NavItem(
                     dbc.NavLink(
                         [
-                            DashIconify(icon="material-symbols:balance", width=20, height=20, style={"margin-right": "10px"}),
-                            "class balancing"
-                        ],
-                        href="/page-3",
-                        id="page-3-link",
-                        active="exact",
-                    )
-                ),
-                dbc.NavItem(
-                    dbc.NavLink(
-                        [
                             DashIconify(icon="icon-park-solid:reverse-operation-out", width=20, height=20, style={"margin-right": "10px"}),
                             "Outlayer processing"
                         ],
-                        href="/page-4",
-                        id="page-4-link",
+                        href="/outlayer",
+                        id="outlayer-link",
                         active="exact",
                     )
                 ),
@@ -124,6 +111,17 @@ NAVBAR = html.Div(
                     )
                 ),
                 html.P('MACHINE LEARNING',className = "sidebar_subtitle"),
+                dbc.NavItem(
+                    dbc.NavLink(
+                        [
+                            DashIconify(icon="bx:data", width=20, height=20, style={"margin-right": "10px"}),
+                            "Training dataset"
+                        ],
+                        href="/page-3",
+                        id="page-3-link",
+                        active="exact",
+                    )
+                ),
                 dbc.NavItem(
                     dbc.NavLink(
                         [

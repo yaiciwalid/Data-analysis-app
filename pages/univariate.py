@@ -18,6 +18,8 @@ layout = dmc.MantineProvider(
     [
         html.Div([
             dcc.Location(id='url', refresh=True),  
+            dcc.Store(id="selected-univariate-variable", data=None, storage_type="local"),
+
             html.Div([
                 html.Div("UNIVARIATE ANALYSIS", className="page-title"),
                 html.Div([
@@ -69,6 +71,7 @@ layout = dmc.MantineProvider(
                             id="dropdown-variable",
                             label="Choose the variable:",
                             data=None,
+                            value=None,
                             style={"margin-right":"40px"}
                         ),
                         html.Div([
@@ -176,20 +179,24 @@ layout = dmc.MantineProvider(
 )
 
 @dash.callback(
-    Output("dropdown-variable", "data"),
+    [Output("dropdown-variable", "data"),
+    Output("dropdown-variable", "value"),],
     Input('url', 'pathname'),
-    State('shared-array', 'data'),
+    [State('shared-array', 'data'),
+     State('selected-univariate-variable', 'data'),],
 )
-def update_dropdown(pathname, data):
+def update_dropdown(pathname, data, selected_variable):
     try:
-        if pathname=="/univariate":
+        if pathname =="/univariate":
             df=pd.DataFrame(data)
             columns = []
             for cl in df.columns:
                 columns.append({"label":cl, "value":cl})
-            return columns
+            return columns, selected_variable
+        else:
+            return [], None
     except:
-        return dash.no_update
+        return [], None
 
     
 
@@ -202,7 +209,8 @@ def update_dropdown(pathname, data):
      Output('cumulative-frequency-curve', 'figure'),
      Output('box-plot-div', 'children'),
      Output('box-plot-table', 'data'),
-     Output('box-plot-table', 'columns'),],
+     Output('box-plot-table', 'columns'),
+     Output('selected-univariate-variable', 'data'),],
     [Input('dropdown-variable', 'value'),
      Input('slider-partitions', 'value'),],
     [State('shared-array', 'data'),
@@ -346,6 +354,6 @@ def load_content(value, nb_partitions, data, columns_type):
 
 
 
-        return card1, card2, card3, card4 , hist_figure, cumulative_figure, box_div, box_tab, box_tab_column_name
+        return card1, card2, card3, card4 , hist_figure, cumulative_figure, box_div, box_tab, box_tab_column_name, value
     except:
         return dash.no_update  
