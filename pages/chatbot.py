@@ -29,7 +29,6 @@ dash.register_page(__name__, path='/chatbot', title="Data analysis", description
 
 
 def textbox(text, box="AI", name="Philippe"):
-    text = text.replace(f"{name}:", "").replace("You:", "")
     style = {
         "max-width": "90%",
         "width": "max-content",
@@ -50,7 +49,7 @@ def textbox(text, box="AI", name="Philippe"):
         
 
         thumbnail = DashIconify(icon="bxs:bot", width=30, height=30, style={"margin-right": "10px"})
-        textbox = dbc.Card(text, style=style, body=True, color="light", inverse=False)
+        textbox = dbc.Card( dbc.CardBody(dcc.Markdown(text)), style=style, body=True, color="light", inverse=False, className="markdown")
 
         return html.Div([thumbnail, textbox])
 
