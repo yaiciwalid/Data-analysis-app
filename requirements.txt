@@ -7,3 +7,5 @@ pandasql
 gunicorn
 scipy
 scikit-learn
+groq
+python-dotenv

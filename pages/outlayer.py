@@ -10,6 +10,7 @@ from utils.calculation import *
 import numpy as np
 from dash_iconify import DashIconify
 import pandas.api.types as ptypes
+from sklearn.metrics import silhouette_score
 
 
 
@@ -118,8 +119,14 @@ def detect_outlayers(n_clicks, data, prediction_var, eps, min_samples, metric):
         labels = outlayers_dbscan_detection(df, prediction_var, eps, min_samples, metric)
         outlayer_tab = create_table(df[labels == -1], id="outlayer-table")
         nb_outlayers = np.sum(labels == -1)
+        score = round(silhouette_score(df.drop(columns=[prediction_var]), labels, metric=metric),2)
+        ration = round(nb_outlayers/df.shape[0],4)
         card1 = dmc.Card(children=update_card("Number of outlayers", str(nb_outlayers)), 
-                                className="page-card", shadow="sm", padding="md", style={"margin":"20px 0px"})
+                                className="page-card", shadow="sm", padding="md", style={"margin":"20px 5px"})
+        card2 = dmc.Card(children=update_card("Outlayers ratio", str(ration)), 
+                                className="page-card", shadow="sm", padding="md", style={"margin":"20px 5px"})
+        card3 = dmc.Card(children=update_card("Silhouette score", str(score)), 
+                                className="page-card", shadow="sm", padding="md", style={"margin":"20px 5px"})
         btn = html.Button(
             [DashIconify(icon="material-symbols:delete", width=24, height=24, style={"margin-right": "10px"}),
                 "Delete outlayers"],
@@ -128,9 +135,11 @@ def detect_outlayers(n_clicks, data, prediction_var, eps, min_samples, metric):
                 className="standard-btn",
                 style={"margin-left": "auto", "width": "300px"}  
             )
+        cards_div = html.Div([card1, card2, card3, btn],
+                             style={"display":"flex","flex-direction":"row", "align-items": "center", 
+                                    "padding-right": "20px", "margin":"20px 0px"})
         if nb_outlayers > 0:
-            return [html.Div([card1, btn],
-                             style={"display":"flex","flex-direction":"row", "align-items": "center", "padding-right": "20px"}), 
+            return [cards_div, 
                     html.Div(children=[outlayer_tab], style={"overflowX": "auto"})], labels, False, []
         else:
             return [card1],[], False, []
@@ -149,7 +158,7 @@ def delete_outlayers(n_clicks, data, outlayer_table):
         if n_clicks > 0:
             df = pd.DataFrame(data)
             outlayer_table = np.array(outlayer_table)
-            df = df[outlayer_table == 0]
+            df = df[outlayer_table != -1]
             
             card1 = dmc.Card(children=update_card("Number of outlayers", "0"), 
                                     className="page-card", shadow="sm", padding="md", style={"margin":"20px 0px"})

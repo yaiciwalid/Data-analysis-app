@@ -107,6 +107,7 @@ def update_upload_text(filename):
     [Output('shared-array', 'data'),
      Output('shared-array-columns-type', 'data'),
      Output('shared-prediction-variable', 'data'),
+     Output("shared-dataset-name", "data"),
      Output('url', 'href')],
     Input("confirm-upload","n_clicks"),
     [State("dash-upload-btn", "contents"),
@@ -119,13 +120,15 @@ def redirect(n_clicks,contents,filename,drop_down_dataset,checked):
         if n_clicks and n_clicks > 0:
             if drop_down_dataset is not None:
                 file_path = os.path.join(DATASET_FOLDER, drop_down_dataset)
+                dataset_name = drop_down_dataset
                 if file_path.endswith('.csv'):
                     df = pd.read_csv(file_path)
                 elif file_path.endswith('.xlsx'):
                     df = pd.read_excel(file_path)
                 else:
-                    return dash.no_update ,dash.no_update, dash.no_update, dash.no_update
+                    return dash.no_update 
             elif contents is not None:
+                dataset_name = filename
                 _, content_string = contents.split(',')
                 decoded = base64.b64decode(content_string)
                 if filename.endswith('.csv'):
@@ -133,7 +136,7 @@ def redirect(n_clicks,contents,filename,drop_down_dataset,checked):
                 elif filename.endswith('.xlsx'):
                     df = pd.read_excel(io.BytesIO(decoded), header=0 if checked else None)
                 else:
-                    return dash.no_update ,dash.no_update, dash.no_update, dash.no_update
+                    return dash.no_update 
             col_types ={}
             for col in df.columns:
                 if ptypes.is_integer_dtype(df[col]):
@@ -149,10 +152,8 @@ def redirect(n_clicks,contents,filename,drop_down_dataset,checked):
             df_dict = df.to_dict('records')
             prediction_var = df.columns[-1]
 
-            
-            return df_dict, col_types, prediction_var, '/overview'            
+            return df_dict, col_types, prediction_var, dataset_name, '/overview'            
         else: 
-            return dash.no_update, dash.no_update, dash.no_update, dash.no_update
+            return dash.no_update
     except:
-        return dash.no_update, dash.no_update, dash.no_update, dash.no_update
-    
+        return dash.no_update

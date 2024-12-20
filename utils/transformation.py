@@ -195,7 +195,7 @@ def create_categorial_bar_plot(contingency_table, var1, var2):
     fig.update_layout(plot_bgcolor='white')
     return dcc.Graph(figure=fig, style={"width": "100%"})
 
-def create_table(contingency_table, id=None):
+def create_table(contingency_table, id=""):
 
 
     return dash_table.DataTable(

@@ -17,7 +17,7 @@ app.layout = html.Div(children=[
     dcc.Store(id='shared-array',data=[],storage_type='session'),
     dcc.Store(id='shared-array-columns-type',data=[],storage_type='session'),
     dcc.Store(id='shared-prediction-variable',data="",storage_type='session'),
-
+    dcc.Store(id='shared-dataset-name',data="",storage_type='session'),
     dash.page_container  
     
 ])
