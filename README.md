@@ -1,14 +1,22 @@
 # Data Analysis Platform (ongoing development)
-![interface](https://github.com/user-attachments/assets/4ca3b862-95df-4233-895c-e01e6e354f8e)
+
+![Screenshot from 2024-12-20 19-03-39](https://github.com/user-attachments/assets/228baad2-0ad4-43ce-acd9-1e1b04b8a5ea)
+
+
+A comprehensive data analysis platform that enables users to import, transform, analyze, and model data for machine learning projects. A new chatbot feature now allows querying and analyzing the dataset in natural language, making the platform more intuitive for users.
 
 ## Description
 
-A comprehensive data analysis platform that enables users to import data, transform it to prepare it for machine learning algorithms, perform univariate and bivariate analysis, and train and test machine learning models.
+This platform provides a suite of tools to streamline the data analysis process, from data import and transformation to training and testing machine learning models. A new chatbot feature allows users to interact with the data using natural language queries, making it more accessible for non-technical users.
 
 ## Features
 
 * **Data Import**: Import data from various sources, including CSV, Excel, and databases.
 * **Data Transformation**: Transform and preprocess data to prepare it for machine learning algorithms.
+* **Intelligent Chatbot**: Query and analyze data using natural language:
+  * Describe me the dataset.
+  * Propose me a data analysis process.
+  * Average column1 group by column2.
 * **Univariate Analysis**: Perform univariate analysis to understand the distribution of individual variables.
 * **Bivariate Analysis**: Perform bivariate analysis to understand the relationships between pairs of variables.
 * **Machine Learning**: Train and test machine learning models using various algorithms, including classification, regression, clustering, and more.
@@ -20,10 +28,8 @@ A comprehensive data analysis platform that enables users to import data, transf
 * Pandas
 * Plotly
 * Scikit-learn
+* LLM API
 
-## Purpose
-
-The purpose of this project is to provide a platform that streamlines the data analysis process, from data import to machine learning model deployment.
 
 ## Installation
 
